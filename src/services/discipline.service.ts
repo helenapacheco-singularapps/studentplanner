@@ -1,84 +1,63 @@
-import "dotenv/config";
-import { PrismaClient, DisciplineStatus } from "@prisma/client";
+import { DisciplineStatus } from "@prisma/client";
+import { IDisciplineRepository } from "../repositories/IDisciplineRepository";
 
-const prisma = new PrismaClient();
 
 export class DisciplineService {
-  
-   // CREATE disciplina
+  constructor(private repository: IDisciplineRepository) {}
 
   async create(name: string, status: DisciplineStatus) {
-    return prisma.discipline.create({
-      data: { name, status },
-    });
+    return this.repository.create(name, status);
   }
 
-  //READ disciplina
-  
   async list() {
-    return prisma.discipline.findMany({
-      include: { grades: true },
-    });
+    return this.repository.findAll();
   }
 
-  // UPDATE disciplina
-   
   async update(
     id: string,
     data: { name?: string; status?: DisciplineStatus }
   ) {
     await this.ensureDisciplineExists(id);
-
-    return prisma.discipline.update({
-      where: { id },
-      data,
-    });
+    return this.repository.update(id, data);
   }
 
-  //DELETE disciplina
-  
   async delete(id: string): Promise<void> {
     await this.ensureDisciplineExists(id);
-
-    await prisma.discipline.delete({
-      where: { id },
-    });
+    await this.repository.delete(id);
   }
 
-  //ADICIONAR nota
-   
-  async addGrade(disciplineId: string, value: number) {
-    await this.ensureDisciplineExists(disciplineId);
 
-    return prisma.grade.create({
-      data: {
-        value,
-        disciplineId,
-      },
-    });
+  async addGrade(id: string, grade: number) {
+    await this.ensureDisciplineExists(id);
+
+    if (typeof grade !== "number") {
+      throw new Error("Nota deve ser um número");
+    }
+
+    if (grade < 0 || grade > 10) {
+      throw new Error("Nota deve estar entre 0 e 10");
+    }
+
+    return this.repository.addGrade(id, grade);
   }
-
-  //AVERAGE: recebe id e faz média
 
   async average(disciplineId: string): Promise<number> {
-    const grades = await prisma.grade.findMany({
-      where: { disciplineId },
-      select: { value: true },
-    });
+    const discipline = await this.repository.findById(disciplineId);
+
+    if (!discipline) {
+      throw new Error("Disciplina não encontrada");
+    }
+
+    const grades = discipline.grades ?? [];
 
     if (grades.length === 0) return 0;
 
-    const sum = grades.reduce((acc, g) => acc + g.value, 0);
+    const sum = grades.reduce((acc: number, g: any) => acc + g.value, 0);
     return sum / grades.length;
   }
 
-  //MÉTODO AUXILIAR p evitar operações em disciplinas q não exitem
-  // buscando pelo ID
-  
   private async ensureDisciplineExists(id: string) {
-    const discipline = await prisma.discipline.findUnique({
-      where: { id },
-    });
+    const discipline = await this.repository.findById(id);
 
     if (!discipline) {
       throw new Error("Disciplina não encontrada");
