@@ -1,20 +1,33 @@
 import "dotenv/config";
-import express from "express";
-import disciplineRoutes from "./routes/discipline.routes";
+import Fastify from "fastify";
+import cors from "@fastify/cors";
+import { disciplineRoutes } from "./routes/discipline.routes";
 
+const app = Fastify({
+  logger: true,
+});
 
-const app = express();
 const port = 3000;
 
-app.use(express.json());
+async function bootstrap() {
+  try {
+    await app.register(cors);
+    app.get("/", async () => {
+      return "Student Academic Planner rodando";
+    });
 
-app.get("/", (_req, res) => {
-  res.send("Student Academic Planner rodando 🚀");
-});
+    await app.register(disciplineRoutes, {
+      prefix: "/disciplines",
+    });
 
+  
+    await app.listen({ port });
 
-app.use("/disciplines", disciplineRoutes);
+    console.log(`Servidor rodando em http://localhost:${port}`);
+  } catch (error) {
+    app.log.error(error);
+    process.exit(1);
+  }
+}
 
-app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
-});
+bootstrap();

@@ -1,20 +1,17 @@
-import { Router } from "express";
+import { FastifyInstance } from "fastify";
 import { DisciplineService } from "../services/discipline.service";
 import { DisciplineController } from "../controllers/discipline.controller";
+import { PrismaDisciplineRepository } from "../repositories/PrismaDisciplineRepository";
 
-const router = Router();
+export async function disciplineRoutes(app: FastifyInstance) {
+  const repository = new PrismaDisciplineRepository();
+  const service = new DisciplineService(repository);
+  const controller = new DisciplineController(service);
 
-const service = new DisciplineService();
-const controller = new DisciplineController(service);
-
-// CRUD
-router.post("/", controller.create);
-router.get("/", controller.list);
-router.put("/:id", controller.update);
-router.delete("/:id", controller.delete);
-
-// extras
-router.post("/:id/grades", controller.addGrade);
-router.get("/:id/average", controller.average);
-
-export default router;
+  app.post("/", controller.create);
+  app.get("/", controller.list);
+  app.put("/:id", controller.update);
+  app.delete("/:id", controller.delete);
+  app.post("/:id/grades", controller.addGrade);
+  app.get("/:id/average", controller.average);
+}

@@ -3,9 +3,11 @@ import { IDisciplineRepository } from "../repositories/IDisciplineRepository";
 
 
 export class DisciplineService {
+
   constructor(private repository: IDisciplineRepository) {}
 
   async create(name: string, status: DisciplineStatus) {
+    //fala apenas com o repo
     return this.repository.create(name, status);
   }
 
@@ -33,6 +35,7 @@ export class DisciplineService {
     if (typeof grade !== "number") {
       throw new Error("Nota deve ser um número");
     }
+
 
     if (grade < 0 || grade > 10) {
       throw new Error("Nota deve estar entre 0 e 10");

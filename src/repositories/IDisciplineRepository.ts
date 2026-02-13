@@ -8,4 +8,3 @@ export interface IDisciplineRepository {
   delete(id: string): Promise<void>;
   addGrade(id: string, grade: number): Promise<any>;
 }
-

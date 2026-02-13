@@ -1,80 +1,88 @@
-import { Request, Response } from "express";
+import { FastifyRequest, FastifyReply } from "fastify";
 import { DisciplineService } from "../services/discipline.service";
-
 
 export class DisciplineController {
   constructor(private service: DisciplineService) {}
 
-  // CREATE
-  create = async (req: Request, res: Response) => {
+  create = async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
     try {
-      const { name, status } = req.body;
+      const { name, status } = request.body as any;
 
       const discipline = await this.service.create(name, status);
 
-      return res.status(201).json(discipline);
+      return reply.status(201).send(discipline);
     } catch (err: any) {
-      return res.status(400).json({ error: err.message });
+      return reply.status(400).send({ error: err.message });
     }
   };
 
-  // READ
-  list = async (_req: Request, res: Response) => {
+  list = async (_request: FastifyRequest, reply: FastifyReply) => {
     const disciplines = await this.service.list();
-    return res.json(disciplines);
+    return reply.send(disciplines);
   };
 
-  // UPDATE
-  update = async (req: Request, res: Response) => {
+  update = async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
     try {
-      const { id } = req.params;
-      const { name, status } = req.body;
+      const { id } = request.params as any;
+      const { name, status } = request.body as any;
 
       const updated = await this.service.update(id, { name, status });
 
-      return res.json(updated);
+      return reply.send(updated);
     } catch (err: any) {
-      return res.status(404).json({ error: err.message });
+      return reply.status(404).send({ error: err.message });
     }
   };
 
-  // DELETE
-  delete = async (req: Request, res: Response) => {
+  delete = async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
     try {
-      const { id } = req.params;
+      const { id } = request.params as any;
 
       await this.service.delete(id);
 
-      return res.status(204).send();
+      return reply.status(204).send();
     } catch (err: any) {
-      return res.status(404).json({ error: err.message });
+      return reply.status(404).send({ error: err.message });
     }
   };
 
-  // ADICIONAR NOTA
-  addGrade = async (req: Request, res: Response) => {
+  addGrade = async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
     try {
-      const { id } = req.params;
-      const { grade } = req.body;
+      const { id } = request.params as any;
+      const { grade } = request.body as any;
 
       const result = await this.service.addGrade(id, grade);
 
-      return res.status(201).json(result);
+      return reply.status(201).send(result);
     } catch (err: any) {
-      return res.status(400).json({ error: err.message });
+      return reply.status(400).send({ error: err.message });
     }
   };
 
-  // MÉDIA
-  average = async (req: Request, res: Response) => {
+  average = async (
+    request: FastifyRequest,
+    reply: FastifyReply
+  ) => {
     try {
-      const { id } = req.params;
+      const { id } = request.params as any;
 
       const avg = await this.service.average(id);
 
-      return res.json({ average: avg });
+      return reply.send({ average: avg });
     } catch (err: any) {
-      return res.status(404).json({ error: err.message });
+      return reply.status(404).send({ error: err.message });
     }
   };
 }

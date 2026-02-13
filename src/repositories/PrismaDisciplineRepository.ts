@@ -1,7 +1,6 @@
 import { PrismaClient, DisciplineStatus } from "@prisma/client";
 import { IDisciplineRepository } from "./IDisciplineRepository";
 
-
 const prisma = new PrismaClient();
 
 export class PrismaDisciplineRepository
