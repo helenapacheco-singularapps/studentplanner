@@ -1,5 +1,5 @@
 import { DisciplineStatus } from "@prisma/client";
-import { IDisciplineRepository } from "../repositories/IDisciplineRepository";
+import { IDisciplineRepository } from "../../domain/repositories/IDisciplineRepository";
 
 
 export class DisciplineService {

@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply } from "fastify";
-import { DisciplineService } from "../services/discipline.service";
+import { DisciplineService } from "../../application/discipline/discipline.service";
+
 
 export class DisciplineController {
   constructor(private service: DisciplineService) {}

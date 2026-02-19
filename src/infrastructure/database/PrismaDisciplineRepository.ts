@@ -1,5 +1,5 @@
 import { PrismaClient, DisciplineStatus } from "@prisma/client";
-import { IDisciplineRepository } from "./IDisciplineRepository";
+import { IDisciplineRepository } from "../../domain/repositories/IDisciplineRepository";
 
 const prisma = new PrismaClient();
 

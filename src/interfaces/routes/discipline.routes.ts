@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { DisciplineService } from "../services/discipline.service";
-import { DisciplineController } from "../controllers/discipline.controller";
-import { PrismaDisciplineRepository } from "../repositories/PrismaDisciplineRepository";
+import { DisciplineController } from "../interfaces/controllers/discipline.controller";
+import { PrismaDisciplineRepository } from "../domain/repositories/PrismaDisciplineRepository";
 
 export async function disciplineRoutes(app: FastifyInstance) {
   const repository = new PrismaDisciplineRepository();
