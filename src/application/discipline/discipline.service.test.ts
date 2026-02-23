@@ -33,3 +33,26 @@ describe("DisciplineService - create", () => {
     });
   });
 });
+
+describe("DisciplineService - regra de negócio addGrade", () => {
+  let mockRepository: any;
+  let service: DisciplineService;
+
+  beforeEach(() => {
+    mockRepository = {
+      findById: jest.fn().mockResolvedValue({
+        id: "1",
+        grades: [],
+      }),
+      addGrade: jest.fn(),
+    };
+
+    service = new DisciplineService(mockRepository);
+  });
+
+  it("deve lançar erro se nota for menor que 0", async () => {
+    await expect(service.addGrade("1", -1))
+      .rejects
+      .toThrow("Nota deve estar entre 0 e 10");
+  });
+});
