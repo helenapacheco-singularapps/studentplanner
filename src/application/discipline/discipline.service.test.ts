@@ -1,5 +1,5 @@
 import { DisciplineService } from "./discipline.service";
-import { DisciplineStatus } from "@prisma/client";
+import { DisciplineStatus } from "../../domain/enum/DisciplineStatus";
 
 describe("DisciplineService - create", () => {
   it("deve chamar o repository e retornar a disciplina criada", async () => {

@@ -1,13 +1,14 @@
-import { DisciplineStatus } from "@prisma/client";
+import { DisciplineStatus } from "../../domain/enum/DisciplineStatus";
 import { IDisciplineRepository } from "../../domain/repositories/IDisciplineRepository";
 
-
 export class DisciplineService {
-
   constructor(private repository: IDisciplineRepository) {}
 
   async create(name: string, status: DisciplineStatus) {
-    //fala apenas com o repo
+    if (!name) {
+      throw new Error("Nome é obrigatório");
+    }
+
     return this.repository.create(name, status);
   }
 
@@ -20,6 +21,11 @@ export class DisciplineService {
     data: { name?: string; status?: DisciplineStatus }
   ) {
     await this.ensureDisciplineExists(id);
+
+    if (data.name !== undefined && data.name.trim() === "") {
+      throw new Error("Nome não pode ser vazio");
+    }
+
     return this.repository.update(id, data);
   }
 
@@ -28,14 +34,12 @@ export class DisciplineService {
     await this.repository.delete(id);
   }
 
-
   async addGrade(id: string, grade: number) {
     await this.ensureDisciplineExists(id);
 
     if (typeof grade !== "number") {
       throw new Error("Nota deve ser um número");
     }
-
 
     if (grade < 0 || grade > 10) {
       throw new Error("Nota deve estar entre 0 e 10");
@@ -55,7 +59,11 @@ export class DisciplineService {
 
     if (grades.length === 0) return 0;
 
-    const sum = grades.reduce((acc: number, g: any) => acc + g.value, 0);
+    const sum = grades.reduce(
+      (acc: number, g: { value: number }) => acc + g.value,
+      0
+    );
+
     return sum / grades.length;
   }
 

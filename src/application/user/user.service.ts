@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { User } from "../../domain/entities/user/User";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { CreateUserDTO, UpdateUserDTO } from "./dtos";
 

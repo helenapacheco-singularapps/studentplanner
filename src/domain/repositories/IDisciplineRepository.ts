@@ -1,4 +1,5 @@
-import { DisciplineStatus } from "@prisma/client";
+import { DisciplineStatus } from "../enum/DisciplineStatus";
+import { Discipline } from "../entities/discipline/discipline";
 
 export interface IDisciplineRepository {
   create(name: string, status: DisciplineStatus): Promise<any>;

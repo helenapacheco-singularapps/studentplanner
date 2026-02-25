@@ -1,6 +1,7 @@
 import "dotenv/config";
 import Fastify from "fastify";
 import cors from "@fastify/cors";
+import postgres from "@fastify/postgres"; 
 import { disciplineRoutes } from "./interfaces/routes/discipline.routes";
 import { userRoutes } from "./interfaces/routes/user.routes";
 
@@ -14,11 +15,15 @@ async function bootstrap() {
   try {
     await app.register(cors);
 
+    
+    await app.register(postgres, {
+      connectionString: process.env.DATABASE_URL,
+    });
+
     app.get("/", async () => {
       return "Student Academic Planner rodando";
     });
 
-  
     await app.register(disciplineRoutes, {
       prefix: "/disciplines",
     });

@@ -1,10 +1,10 @@
 import { FastifyInstance } from "fastify";
-import { PrismaUserRepository } from "../../infrastructure/database/PrismaUserRepository";
+import { PostgresUserRepository } from "../../infrastructure/database/PostgresUserRepository";
 import { UserService } from "../../application/user/user.service";
 import { UserController } from "../controllers/user.controller";
 
 export async function userRoutes(app: FastifyInstance) {
-  const userRepository = new PrismaUserRepository();
+  const userRepository = new PostgresUserRepository();
   const userService = new UserService(userRepository);
   const userController = new UserController(userService);
 
