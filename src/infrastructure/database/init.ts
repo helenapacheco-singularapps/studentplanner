@@ -5,24 +5,30 @@ export const pool = new Pool({
 });
 
 async function init() {
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS disciplines (
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
-      status VARCHAR(50) NOT NULL
-    );
-  `);
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS disciplines (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        status VARCHAR(50) NOT NULL
+      );
+    `);
 
-  await pool.query(`
-    CREATE TABLE IF NOT EXISTS grades (
-      id SERIAL PRIMARY KEY,
-      value NUMERIC(5,2) NOT NULL,
-      discipline_id INTEGER NOT NULL,
-      FOREIGN KEY (discipline_id) REFERENCES disciplines(id) ON DELETE CASCADE
-    );
-  `);
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS grades (
+        id SERIAL PRIMARY KEY,
+        value NUMERIC(5,2) NOT NULL,
+        discipline_id INTEGER NOT NULL,
+        FOREIGN KEY (discipline_id) REFERENCES disciplines(id) ON DELETE CASCADE
+      );
+    `);
 
-  console.log("Tabelas criadas com sucesso");
-
+    console.log("tabelas criadas com sucesso");
+  } catch (error) {
+    console.error("Erro:", error);
+  } finally {
+    await pool.end(); 
+  }
 }
 
+init();

@@ -22,7 +22,6 @@ try{
     (7.8, 4),
     (0, 5);
   `);
-console.log("Seed executado com sucesso");
   } catch (err) {
     console.error(err);
   } finally {
