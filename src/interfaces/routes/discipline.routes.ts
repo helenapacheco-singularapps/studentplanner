@@ -14,8 +14,5 @@ export async function disciplineRoutes(app: FastifyInstance) {
   app.delete("/:id", controller.delete);
   app.post("/:id/grades", controller.addGrade);
   app.get("/:id/average", controller.average);
-  app.get("/test", async (request, reply) => {
-  const result = await app.pg.query("SELECT * FROM disciplines");
-  return result.rows;
-});
+  
 }
