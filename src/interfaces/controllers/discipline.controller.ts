@@ -86,4 +86,12 @@ export class DisciplineController {
       return reply.status(404).send({ error: err.message });
     }
   };
+dashboard = async (_request: FastifyRequest, reply: FastifyReply) => {
+  try {
+    const data = await this.service.dashboard();
+    return reply.send(data);
+  } catch (err: any) {
+    return reply.status(500).send({ error: err.message });
+  }
+};
 }

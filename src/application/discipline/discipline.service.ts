@@ -66,4 +66,39 @@ export class DisciplineService {
       throw new Error("Disciplina não encontrada");
     }
   }
+  async dashboard() {
+  const disciplines = await this.repository.findAll();
+
+  const total = disciplines.length;
+
+  const planned = disciplines.filter(
+    (d) => d.status === "PLANEJADA"
+  ).length;
+
+  const inProgress = disciplines.filter(
+    (d) => d.status === "EM_ANDAMENTO"
+  ).length;
+
+  const completed = disciplines.filter(
+    (d) => d.status === "CONCLUIDA"
+  ).length;
+
+  // média geral 
+  const allGrades = disciplines.flatMap((d) => d.grades ?? []);
+
+  let overallAverage = 0;
+
+  if (allGrades.length > 0) {
+    const sum = allGrades.reduce((acc, g) => acc + g.value, 0);
+    overallAverage = sum / allGrades.length;
+  }
+
+  return {
+    total,
+    planned,
+    inProgress,
+    completed,
+    overallAverage,
+  };
+}
 }

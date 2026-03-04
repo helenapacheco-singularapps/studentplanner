@@ -11,6 +11,7 @@ export async function disciplineRoutes(app: FastifyInstance) {
 
   app.post("/", controller.create);
   app.get("/", controller.list);
+  app.get("/dashboard", controller.dashboard);
   app.put("/:id", controller.update);
   app.delete("/:id", controller.delete);
   app.post("/:id/grades", controller.addGrade);
