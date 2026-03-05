@@ -9,11 +9,13 @@ export async function disciplineRoutes(app: FastifyInstance) {
   const service = new DisciplineService(repository);
   const controller = new DisciplineController(service);
 
-  app.post("/", controller.create);
-  app.get("/", controller.list);
+  app.post("/disciplines", controller.create);
+  app.get("/disciplines", controller.list);
+  app.put("/disciplines/:id", controller.update);
+  app.delete("/disciplines/:id", controller.delete);
+
+  app.post("/disciplines/:id/grades", controller.addGrade);
+  app.get("/disciplines/:id/average", controller.average);
+
   app.get("/dashboard", controller.dashboard);
-  app.put("/:id", controller.update);
-  app.delete("/:id", controller.delete);
-  app.post("/:id/grades", controller.addGrade);
-  app.get("/:id/average", controller.average);
 }

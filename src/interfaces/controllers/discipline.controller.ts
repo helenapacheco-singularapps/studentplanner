@@ -86,10 +86,15 @@ export class DisciplineController {
       return reply.status(404).send({ error: err.message });
     }
   };
-dashboard = async (_request: FastifyRequest, reply: FastifyReply) => {
+  
+  //GET /dashboard chama o service e devolve os dados do dashboard na resposta
+dashboard = async (
+  _request: FastifyRequest,
+  reply: FastifyReply
+) => {
   try {
-    const data = await this.service.dashboard();
-    return reply.send(data);
+    const dashboard = await this.service.dashboard();
+    return reply.send(dashboard);
   } catch (err: any) {
     return reply.status(500).send({ error: err.message });
   }
