@@ -58,7 +58,7 @@ export class DisciplineService {
     const sum = grades.reduce((acc: number, g: any) => acc + g.value, 0);
     return sum / grades.length;
   }
-
+//verifica no repository se a disciplina existe
   private async ensureDisciplineExists(id: string) {
     const discipline = await this.repository.findById(id);
 
@@ -66,7 +66,7 @@ export class DisciplineService {
       throw new Error("Disciplina não encontrada");
     }
   }
-  //p
+  //busca todas as disciplinas no repo, calcula métricas e separa as listas p o dashboard
   async dashboard() {
   const disciplines = await this.repository.findAll();
 

@@ -8,7 +8,7 @@ const app = Fastify({
   logger: true,
 });
 
-const port = 3000;
+const port = 8080;
 
 async function bootstrap() {
   try {
@@ -18,7 +18,7 @@ async function bootstrap() {
       return "Student Academic Planner rodando";
     });
 
-  
+
     await app.register(disciplineRoutes, {
       prefix: "/disciplines",
     });
