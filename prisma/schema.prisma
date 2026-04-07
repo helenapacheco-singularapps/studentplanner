@@ -12,6 +12,7 @@ model Discipline {
   name   String
   status DisciplineStatus
   grades Grade[]
+  semester String?
 }
 
 model Grade {

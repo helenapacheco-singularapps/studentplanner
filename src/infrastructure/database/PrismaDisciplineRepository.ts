@@ -6,9 +6,9 @@ const prisma = new PrismaClient();
 export class PrismaDisciplineRepository
   implements IDisciplineRepository
 {
-  async create(name: string, status: DisciplineStatus) {
+  async create(name: string, status: DisciplineStatus, semester: string) {
     return prisma.discipline.create({
-      data: { name, status },
+      data: { name, status, semester},
     });
   }
 

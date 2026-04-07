@@ -6,9 +6,9 @@ export class DisciplineService {
 
   constructor(private repository: IDisciplineRepository) {}
 
-  async create(name: string, status: DisciplineStatus) {
+  async create(name: string, status: DisciplineStatus, semester: string) {
     //fala apenas com o repo
-    return this.repository.create(name, status);
+    return this.repository.create(name, status, semester);
   }
 
   async list() {

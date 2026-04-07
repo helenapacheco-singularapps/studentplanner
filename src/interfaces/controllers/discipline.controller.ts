@@ -10,9 +10,9 @@ export class DisciplineController {
     reply: FastifyReply
   ) => {
     try {
-      const { name, status } = request.body as any;
+      const { name, status, semester } = request.body as any;
 
-      const discipline = await this.service.create(name, status);
+      const discipline = await this.service.create(name, status, semester);
 
       return reply.status(201).send(discipline);
     } catch (err: any) {
