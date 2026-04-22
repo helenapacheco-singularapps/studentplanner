@@ -85,7 +85,7 @@ export class DisciplineController {
     }
   };
   
-  //GET /dashboard chama o service e devolve os dados do dashboard na resposta
+
 dashboard = async (
   _request: FastifyRequest,
   reply: FastifyReply
