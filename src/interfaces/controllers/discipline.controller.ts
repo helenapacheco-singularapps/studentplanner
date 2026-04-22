@@ -26,20 +26,18 @@ export class DisciplineController {
   };
 
   update = async (
-    request: FastifyRequest,
-    reply: FastifyReply
-  ) => {
-    try {
-      const { id } = request.params as any;
-      const { name, status } = request.body as any;
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  try {
+    const { id } = request.params as any;
+    const updated = await this.service.update(id, request.body as any);
 
-      const updated = await this.service.update(id, { name, status });
-
-      return reply.send(updated);
-    } catch (err: any) {
-      return reply.status(404).send({ error: err.message });
-    }
-  };
+    return reply.send(updated);
+  } catch (err: any) {
+    return reply.status(404).send({ error: err.message });
+  }
+};
 
   delete = async (
     request: FastifyRequest,

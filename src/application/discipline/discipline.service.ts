@@ -1,5 +1,6 @@
 import { DisciplineStatus } from "@prisma/client";
 import { IDisciplineRepository } from "../../domain/repositories/IDisciplineRepository";
+import { Discipline } from "../../domain/entities/discipline/discipline";
 
 
 export class DisciplineService {
@@ -16,12 +17,14 @@ export class DisciplineService {
   }
 
   async update(
-    id: string,
-    data: { name?: string; status?: DisciplineStatus }
-  ) {
-    await this.ensureDisciplineExists(id);
-    return this.repository.update(id, data);
-  }
+  id: string,
+  data: { name?: string; status?: DisciplineStatus; semester?: string }
+) {
+
+  const result = await this.repository.update(id, data)
+
+  return result
+}
 
   async delete(id: string): Promise<void> {
     await this.ensureDisciplineExists(id);
